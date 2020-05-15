@@ -12,7 +12,12 @@ import com.org.prac.simple.entity.resp.LoginResp;
 import com.org.prac.simple.service.UserService;
 import com.org.prac.simple.util.OperationResult;
 import com.org.prac.simple.util.ServiceResult;
-
+/**
+ * 
+ * @Description:  用户管理
+ * @author: wulianwei  
+ * @date: 2020-05-15 17:09
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {

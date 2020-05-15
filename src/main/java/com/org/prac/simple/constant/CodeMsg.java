@@ -23,15 +23,14 @@ public class CodeMsg {
 	public static CodeMsg LOGINSUCCESS = new CodeMsg(SUCCESS_CODE, "登录成功");
 	public static CodeMsg LOGINFAILED = new CodeMsg(FAILED_CODE, "登陆失败");
 	public static CodeMsg SERVER_EXCEPTION = new CodeMsg(10001, "系统繁忙，请稍后再试");
-	public static CodeMsg RELLOGIN = new CodeMsg(10002, "请重新登陆");
+	public static CodeMsg RELOGIN = new CodeMsg(10002, "请重新登陆");
 	public static CodeMsg REQUEST_DENY = new CodeMsg(10003, "无权访问");
 	public static CodeMsg PARAMETER_ISNULL = new CodeMsg(10004, "输入参数为空");
 	public static CodeMsg USERNAME_WRONG = new CodeMsg(10005, "用户名错误");
 	public static CodeMsg PASSWORD_WRONG = new CodeMsg(10006, "用户名错误");
 	public static CodeMsg LOGIN_PLEASE= new CodeMsg(10007, "请登陆");
-	public static CodeMsg LOGIN_AGAIN= new CodeMsg(10008, "请重新登陆");
-	public static CodeMsg NO_RIGHT= new CodeMsg(10009, "无权访问");
-	public static CodeMsg USER_EXIST= new CodeMsg(10010, "用户已存在");
+	public static CodeMsg NO_RIGHT= new CodeMsg(10008, "无权访问");
+	public static CodeMsg USER_EXIST= new CodeMsg(10009, "用户已存在");
 	public static CodeMsg USER_NO_EXIST= new CodeMsg(10010, "用户不存在");
 	
 	

@@ -51,7 +51,7 @@ public class DataInit implements ApplicationRunner,Ordered{
 	 * @date:   2020-04-29 11:45  
 	 * @return void
 	 */
-	private void initPermission() {
+	public void initPermission() {
 		List<RolePermission> rolePermissions = permissionMapper.selectRolePermissions();
 		permissionMap = rolePermissions.stream().collect(Collectors.toMap(RolePermission::getUrl, item->{
 			Set<String> roles = new HashSet<String>(16);

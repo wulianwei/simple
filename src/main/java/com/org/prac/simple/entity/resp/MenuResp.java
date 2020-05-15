@@ -1,5 +1,6 @@
 package com.org.prac.simple.entity.resp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -9,12 +10,16 @@ import lombok.ToString;
 @ToString
 public class MenuResp {
 	
+	private String id;
+	
 	private String title;
 
     private String type;
 
     private String url;
     
-    private List<MenuResp> children;
+    private Byte orders;
+    
+    private List<MenuResp> children = new ArrayList<MenuResp>();
 
 }

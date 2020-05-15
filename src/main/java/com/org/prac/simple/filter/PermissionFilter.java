@@ -56,7 +56,7 @@ public class PermissionFilter implements Filter,Ordered{
 			response.setCharacterEncoding("utf-8");
 	        response.setContentType("application/json");
 			PrintWriter out = response.getWriter();
-			out.print(JSON.toJSONString(CodeMsg.LOGIN_AGAIN));
+			out.print(JSON.toJSONString(CodeMsg.LOGIN_PLEASE));
 			out.close();
 			return;
 		}
@@ -66,7 +66,7 @@ public class PermissionFilter implements Filter,Ordered{
 			response.setCharacterEncoding("utf-8");
 	        response.setContentType("application/json");
 			PrintWriter out = response.getWriter();
-			out.print(JSON.toJSONString(CodeMsg.LOGIN_AGAIN));
+			out.print(JSON.toJSONString(CodeMsg.RELOGIN));
 			out.close();
 			return;
 		}
