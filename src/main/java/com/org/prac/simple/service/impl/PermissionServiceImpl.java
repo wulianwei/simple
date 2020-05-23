@@ -7,14 +7,21 @@ import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.org.prac.simple.constant.CodeMsg;
+import com.org.prac.simple.constant.CommonConstant;
 import com.org.prac.simple.entity.Permission;
+import com.org.prac.simple.entity.RolePermission;
 import com.org.prac.simple.entity.User;
+import com.org.prac.simple.entity.req.EditRolePermissionReq;
 import com.org.prac.simple.entity.resp.MenuResp;
+import com.org.prac.simple.init.DataInit;
 import com.org.prac.simple.mapper.PermissionMapper;
+import com.org.prac.simple.mapper.RolePermissionMapper;
 import com.org.prac.simple.service.PermissionService;
 import com.org.prac.simple.util.AccessTokenUtil;
+import com.org.prac.simple.util.OperationResult;
 import com.org.prac.simple.util.ServiceResult;
 
 @Service
@@ -22,6 +29,12 @@ public class PermissionServiceImpl implements PermissionService{
 
 	@Autowired
 	private PermissionMapper permissionMapper;
+	
+	@Autowired
+	private RolePermissionMapper rolePermissionMapper;
+	
+	@Autowired
+	private DataInit dataInit;
 		
 	@Override
 	public ServiceResult<List<MenuResp>> searchMenu() {
@@ -30,7 +43,7 @@ public class PermissionServiceImpl implements PermissionService{
 		if(user == null) {
 			return ServiceResult.newFailure(CodeMsg.LOGIN_PLEASE);
 		}
-		List<Permission> permissions=permissionMapper.selectPermissionsByUserId(user.getId());
+		List<Permission> permissions=permissionMapper.selectPermissionByUserId(user.getId());
 		MenuResp topMenu = new MenuResp();
 		topMenu.setId("0");
 		formatMenu(permissions,topMenu);
@@ -43,7 +56,7 @@ public class PermissionServiceImpl implements PermissionService{
 	 * @author wulianwei
 	 * @Date 2020年5月15日
 	 */
-	public void formatMenu(List<Permission> permissions,MenuResp menu) {
+	private void formatMenu(List<Permission> permissions,MenuResp menu) {
 		for(Permission p : permissions) {
 			if(p.getPid().equals(menu.getId())) {
 				MenuResp child = new MenuResp();
@@ -59,6 +72,85 @@ public class PermissionServiceImpl implements PermissionService{
 		for(MenuResp child : menu.getChildren()) {
 			formatMenu(permissions,child);
 		}
+	}
+
+
+	@Override
+	public ServiceResult<Permission> permissionDetail(String id) {
+		// TODO Auto-generated method stub
+		return ServiceResult.newSuccess(permissionMapper.selectByPrimaryKey(id));
+	}
+	
+	@Override
+	public ServiceResult<List<String>> listPermissionIdByRoleId(String roleId) {
+		// TODO Auto-generated method stub
+		return ServiceResult.newSuccess(rolePermissionMapper.selectPermissionIdByRoleId(roleId));
+	}
+	
+	@Override
+	@Transactional
+	public OperationResult addPermission(Permission permission) {
+		// TODO Auto-generated method stub
+		Permission existPermission = permissionMapper.selectPermissionByUrl(permission.getUrl());
+		if(existPermission != null) {
+			return OperationResult.newFailure(CodeMsg.PERMISSION_EXIST);
+		}
+		permissionMapper.insertSelective(permission);
+		existPermission = permissionMapper.selectPermissionByUrl(permission.getUrl());
+		RolePermission rolePermission = new RolePermission();
+		rolePermission.setRoleId(CommonConstant.ROLE_MANAGER);
+		rolePermission.setPermissionId(existPermission.getId());
+		rolePermissionMapper.insert(rolePermission);
+		dataInit.initPermission();
+		return OperationResult.newSuccess();
+	}
+
+
+	@Override
+	public OperationResult editPermission(Permission permission) {
+		// TODO Auto-generated method stub
+		Permission existPermission = permissionMapper.selectExistPermissionByUrl(permission.getUrl(),permission.getId());
+		if(existPermission != null) {
+			return OperationResult.newFailure(CodeMsg.PERMISSION_EXIST);
+		}
+		permissionMapper.updateByPrimaryKeySelective(permission);
+		dataInit.initPermission();
+		return OperationResult.newSuccess();
+	}
+
+
+	@Override
+	@Transactional
+	public OperationResult batchDeletePermission(List<String> ids) {
+		// TODO Auto-generated method stub
+//		permissionMapper.deleteByPrimaryKey(id)
+		for(String id : ids) {
+			List<Permission> children = permissionMapper.selectChildrenPermission(id);
+			if(children.size() > 0) {
+				Permission permission = permissionMapper.selectByPrimaryKey(id);
+				return OperationResult.newFailure(permission.getTitle()+"包含子功能,无法删除");
+			}
+		}
+		permissionMapper.batchDeletePermission(ids);
+		rolePermissionMapper.batchDeleteRolePermissionByPermissionId(ids);
+		dataInit.initPermission();
+		return OperationResult.newSuccess();
+	}
+
+
+	@Override
+	@Transactional
+	public OperationResult editRolePermission(EditRolePermissionReq req) {
+		// TODO Auto-generated method stub
+		rolePermissionMapper.deleteRolePermissionByRoleId(req.getRoleId());
+		for(String permissionId : req.getPermissionIds()) {
+			RolePermission record = new RolePermission();
+			record.setRoleId(req.getRoleId());
+			record.setPermissionId(permissionId);
+			rolePermissionMapper.insert(record);
+		}
+		dataInit.initPermission();
+		return OperationResult.newSuccess();
 	}
 	
 }

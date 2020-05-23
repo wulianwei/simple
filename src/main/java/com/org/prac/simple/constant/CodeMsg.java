@@ -19,7 +19,8 @@ public class CodeMsg {
 
 	// 按照模块定义CodeMsg
 	// 通用异常
-	public static CodeMsg SUCCESS = new CodeMsg(0, SUCCESS_DESC);
+	public static CodeMsg SUCCESS = new CodeMsg(SUCCESS_CODE, SUCCESS_DESC);
+	public static CodeMsg FAILURE = new CodeMsg(FAILED_CODE, "系统繁忙");
 	public static CodeMsg LOGINSUCCESS = new CodeMsg(SUCCESS_CODE, "登录成功");
 	public static CodeMsg LOGINFAILED = new CodeMsg(FAILED_CODE, "登陆失败");
 	public static CodeMsg SERVER_EXCEPTION = new CodeMsg(10001, "系统繁忙，请稍后再试");
@@ -32,6 +33,8 @@ public class CodeMsg {
 	public static CodeMsg NO_RIGHT= new CodeMsg(10008, "无权访问");
 	public static CodeMsg USER_EXIST= new CodeMsg(10009, "用户已存在");
 	public static CodeMsg USER_NO_EXIST= new CodeMsg(10010, "用户不存在");
+	public static CodeMsg PERMISSION_EXIST= new CodeMsg(10011, "资源已存在");
+	public static CodeMsg ROLE_EXIST= new CodeMsg(10012, "角色已存在");
 	
 	
 

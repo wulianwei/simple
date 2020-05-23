@@ -125,11 +125,20 @@
       lastTime = #{lasttime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
+  <select id="selectUser"  parameterType="UserReq" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from user
+    <where>
+    	<if test="userName != null">
+    		username = #{userName,jdbcType=VARCHAR}
+    	</if>
+    </where>
+  </select>
   <select id="selectUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
-    where username = #{userName,jdbcType=VARCHAR}
+    where username = #{userName,jdbcType=VARCHAR} limit 1
   </select>
 </mapper>

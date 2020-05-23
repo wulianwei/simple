@@ -69,12 +69,16 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
-  <select id="selectRolesByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectRoleByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from role r
     where r.id in(
         select ur.role_id from user_role ur where ur.user_id = #{userId,jdbcType=VARCHAR}
     )
+  </select>
+  <select id="selectAllRole" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from role
   </select>
 </mapper>

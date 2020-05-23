@@ -16,6 +16,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,12 +28,18 @@ import com.org.prac.simple.constant.CommonConstant;
 import com.org.prac.simple.entity.User;
 import com.org.prac.simple.init.DataInit;
 import com.org.prac.simple.util.AccessTokenUtil;
+import com.org.prac.simple.util.OperationResult;
 
 @WebFilter(filterName = "permissionFilter",urlPatterns = "/*")
 public class PermissionFilter implements Filter,Ordered{
+	
+	private Logger logger = LoggerFactory.getLogger(PermissionFilter.class);
 
 	@Autowired
 	RedisTemplate<String, Object> redisTemplate;
+	
+//	@Autowired
+//	private DataInit dataInit;
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -43,34 +51,37 @@ public class PermissionFilter implements Filter,Ordered{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
+		//dataInit.initPermission();   //开启即刻权限校验
 		String uri  = ((HttpServletRequest)request).getRequestURI();
 		response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
 		String accessToken = AccessTokenUtil.getAccessToken();
 		//非配置路径直接放行
 		if(!DataInit.permissionMap.keySet().contains(uri)) {
-			chain.doFilter(request, response);
+			try {
+				chain.doFilter(request, response);
+			}catch (Exception e) {
+				// TODO: handle exception
+				logger.error("请求异常", e);
+				PrintWriter out = response.getWriter();
+				out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.FAILURE)));
+			}
 			return;
 		}
 		if(StringUtils.isEmpty(accessToken)) {
-			response.setCharacterEncoding("utf-8");
-	        response.setContentType("application/json");
 			PrintWriter out = response.getWriter();
-			out.print(JSON.toJSONString(CodeMsg.LOGIN_PLEASE));
+			out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.LOGIN_PLEASE)));
 			out.close();
 			return;
 		}
 		//用户认证
 		User user = (User) redisTemplate.opsForValue().get(accessToken);
 		if(user == null) {
-			response.setCharacterEncoding("utf-8");
-	        response.setContentType("application/json");
 			PrintWriter out = response.getWriter();
-			out.print(JSON.toJSONString(CodeMsg.RELOGIN));
+			out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.RELOGIN)));
 			out.close();
 			return;
 		}
-		request.setAttribute("loginUser", user);
 		// 刷新登陆有效时间
 		redisTemplate.expire(accessToken, CommonConstant.LOGIN_EXPIRE, TimeUnit.SECONDS);
 		//权限校验
@@ -78,12 +89,18 @@ public class PermissionFilter implements Filter,Ordered{
 		List<String> userRoles = user.getRoles();
 		String role = userRoles.stream().filter(item->roles.contains(item)).findAny().orElse(null);
 		if(StringUtils.isEmpty(role)) {
-			response.setCharacterEncoding("utf-8");
-	        response.setContentType("application/json");
 			PrintWriter out = response.getWriter();
-			out.print(JSON.toJSONString(CodeMsg.NO_RIGHT));
+			out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.NO_RIGHT)));
+			out.close();
 		}else {
-			chain.doFilter(request, response);
+			try {
+				chain.doFilter(request, response);
+			}catch (Exception e) {
+				// TODO: handle exception
+				logger.error("请求异常", e);
+				PrintWriter out = response.getWriter();
+				out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.FAILURE)));
+			}
 		}
 	}
 

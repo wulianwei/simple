@@ -1,16 +1,21 @@
 package com.org.prac.simple.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.org.prac.simple.entity.User;
+import com.org.prac.simple.entity.req.UserReq;
 import com.org.prac.simple.entity.resp.LoginResp;
 import com.org.prac.simple.service.UserService;
 import com.org.prac.simple.util.OperationResult;
+import com.org.prac.simple.util.PageResult;
 import com.org.prac.simple.util.ServiceResult;
 /**
  * 
@@ -28,9 +33,9 @@ public class UserController {
 	/**
 	 * 
 	 * @Description:    登陆   
-	 * @author: Administrator     
-	 * @date:   2020-04-29 11:43  
-	 * @return ServiceResult<LoginResp>
+	 * @Author: Administrator     
+	 * @Date:   2020-04-29 11:43  
+	 * @Return ServiceResult<LoginResp>
 	 */
 	@RequestMapping("/login")
 	public ServiceResult<LoginResp> login(String username, String password){
@@ -39,28 +44,40 @@ public class UserController {
 	}
 	
 	/**
+	 * @Description 查询人员 
+	 * @Author wulianwei
+	 * @Date 2020-05-23 12:32
+	 * @Return  PageResult<List<User>>
+	 */
+	@RequestMapping("/searchUser")
+	public PageResult<List<User>> searchUser(@RequestBody UserReq req){
+		logger.info("searchUser>>:{}", req);
+		return userService.searchUser(req);
+	}
+	
+	/**
 	 * 
 	 * @Description:    添加用户   
-	 * @author: Administrator     
-	 * @date:   2020-04-30 15:24  
-	 * @return OperationResult
+	 * @Author: Administrator     
+	 * @Date:   2020-04-30 15:24  
+	 * @Return OperationResult
 	 */
 	@PostMapping("/addUser")
-	public OperationResult addUser(User user) {
-		logger.info("addUser>>:{}",user);
+	public OperationResult addUser(@RequestBody User user) {
+		logger.info("addUser>>:{}", user);
 		return userService.addUser(user);
 	}
 	
 	/**
 	 * 
 	 * @Description:    编辑用户   
-	 * @author: Administrator     
-	 * @date:   2020-04-30 15:24  
-	 * @return OperationResult
+	 * @Author: Administrator     
+	 * @Date:   2020-04-30 15:24  
+	 * @Return OperationResult
 	 */
 	@PostMapping("/editUser")
-	public OperationResult editUser(User user) {
-		logger.info("addUser>>:{}",user);
-		return null;
+	public OperationResult editUser(@RequestBody User user) {
+		logger.info("editUser>>:{}",user);
+		return userService.editUser(user);
 	}
 }
