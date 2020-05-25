@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.org.prac.simple.constant.CodeMsg;
 import com.org.prac.simple.constant.CommonConstant;
 import com.org.prac.simple.entity.Role;
@@ -79,11 +78,6 @@ public class UserServiceImpl implements UserService{
 		PageResult<List<User>> userResult = PageResult.newSuccess(users);
 		userResult.setTotal((int) page.getTotal());
 		return userResult;
-	}
-
-	private Integer Integer(long total) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
