@@ -49,7 +49,7 @@ public class UserController {
 	 * @Date 2020-05-23 12:32
 	 * @Return  PageResult<List<User>>
 	 */
-	@RequestMapping("/searchUser")
+	@PostMapping("/searchUser")
 	public PageResult<List<User>> searchUser(@RequestBody UserReq req){
 		logger.info("searchUser>>:{}", req);
 		return userService.searchUser(req);

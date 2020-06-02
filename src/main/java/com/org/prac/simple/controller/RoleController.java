@@ -31,7 +31,7 @@ public class RoleController {
 	 * @Date 2020-05-23 15:16
 	 * @Return  ServiceResult<List<Role>>
 	 */
-	@RequestMapping("/listRole")
+	@PostMapping("/listRole")
 	public ServiceResult<List<Role>> listRole(){
 		logger.info("listRole>>");
 		return roleService.listRole();
@@ -43,7 +43,7 @@ public class RoleController {
 	 * @Date 2020-05-23 15:50
 	 * @Return  ServiceResult
 	 */
-	@RequestMapping("/listRoleIdByUser")
+	@PostMapping("/listRoleIdByUser")
 	public ServiceResult<List<String>> listRoleIdByUser() {
 		logger.info("listRoleIdByUser>>");
 		return roleService.listRoleIdByUser();

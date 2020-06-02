@@ -41,7 +41,7 @@ public class PermissionController {
 	 * @Author wulianwei
 	 * @Date 2020-05-22
 	 */
-	@RequestMapping("/refreshPermission")
+	@PostMapping("/refreshPermission")
 	public OperationResult cachePermission(){
 		logger.info("refreshPermission>>");
 		dataInit.initPermission();
@@ -53,7 +53,7 @@ public class PermissionController {
 	 * @Author wulianwei
 	 * @Date 2020-05-22
 	 */
-	@RequestMapping("/searchMenu")
+	@PostMapping("/searchMenu")
 	public ServiceResult<List<MenuResp>> searchMenu(){
 		logger.info("searchMenu>>");
 		return permissionService.searchMenu();
@@ -65,7 +65,7 @@ public class PermissionController {
 	 * @Date 2020-05-22 14:18
 	 * @Return  ServiceResult<Permission>
 	 */
-	@RequestMapping("/permissionDetail")
+	@PostMapping("/permissionDetail")
 	public ServiceResult<Permission> permissionDetail(@RequestBody PermissionReq req){
 		logger.info("permissionDetail>>{}", req);
 		return permissionService.permissionDetail(req.getId());
@@ -77,7 +77,7 @@ public class PermissionController {
 	 * @Date 2020-05-22 14:18
 	 * @Return  ServiceResult<Permission>
 	 */
-	@RequestMapping("/listPermissionIdByRoleId")
+	@PostMapping("/listPermissionIdByRoleId")
 	public ServiceResult<List<String>> listPermissionIdByRoleId(@RequestBody PermissionReq req){
 		logger.info("searchRolePermission>>:{}", req);
 		return permissionService.listPermissionIdByRoleId(req.getRoleId());
@@ -113,7 +113,7 @@ public class PermissionController {
 	 * @Date 2020-05-23 10:14
 	 * @Return  OperationResult
 	 */
-	@RequestMapping("/batchDeletePermission")
+	@PostMapping("/batchDeletePermission")
 	public OperationResult batchDeletePermission(@RequestBody PermissionReq req) {
 		logger.info("batchDeletePermission>>{}",req);
 		return permissionService.batchDeletePermission(req.getIds());
