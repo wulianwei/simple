@@ -4,10 +4,10 @@ spring:
   application:
     name: simple-service
   datasource:
-    url: jdbc:mysql://localhost:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://192.168.97.111:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: 1qaz!QAZ
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     # 连接池配置
     druid:
       # 初始化大小，最小，最大
