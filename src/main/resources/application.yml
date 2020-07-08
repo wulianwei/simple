@@ -4,7 +4,7 @@ spring:
   application:
     name: simple-service
   datasource:
-    url: jdbc:mysql://localhsot:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: 1qaz!QAZ
     driver-class-name: com.mysql.cj.jdbc.Driver
