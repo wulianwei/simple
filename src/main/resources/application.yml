@@ -4,7 +4,7 @@ spring:
   application:
     name: simple-service
   datasource:
-    url: jdbc:mysql://192.168.97.111:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhsot:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: 1qaz!QAZ
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -64,7 +64,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     
 mybatis:
-  mapper-locations: classpath:/mapper/*.xml
+  mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.org.prac.simple.entity  
 
 #日志
