@@ -1,8 +1,21 @@
 server:
   port: 8181
 spring:
+  profiles: 
+    active: dev
   application:
     name: simple-service
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.org.prac.simple.entity  
+
+---
+spring:
+  profiles: dev
   datasource:
     url: jdbc:mysql://localhost:3306/book?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
@@ -59,13 +72,6 @@ spring:
         max-wait: -1ms
         max-idle: 8
         min-idle: 0
-  jackson:
-    time-zone: GMT+8
-    date-format: yyyy-MM-dd HH:mm:ss
-    
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.org.prac.simple.entity  
 
 #日志
 logging:
