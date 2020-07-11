@@ -1,8 +1,8 @@
 server:
   port: 8181
 spring:
-  profiles: 
-    active: dev
+  profiles:
+      active: dev
   application:
     name: simple-service
   jackson:
@@ -12,7 +12,8 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.org.prac.simple.entity  
-
+  
+#开发环境
 ---
 spring:
   profiles: dev
@@ -72,8 +73,10 @@ spring:
         max-wait: -1ms
         max-idle: 8
         min-idle: 0
-
 #日志
 logging:
   config: classpath:log/logback.xml
   path: D://logs/simple-service
+
+  
+
