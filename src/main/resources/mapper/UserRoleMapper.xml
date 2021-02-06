@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.org.prac.simple.mapper.UserRoleMapper">
+<mapper namespace="com.prac.simple.mapper.UserRoleMapper">
 	<resultMap id="BaseResultMap"
-		type="com.org.prac.simple.entity.UserRole">
+		type="com.prac.simple.entity.UserRole">
 		<result column="user_id" jdbcType="VARCHAR" property="userId" />
 		<result column="role_id" jdbcType="VARCHAR" property="roleId" />
 	</resultMap>
 	<insert id="insert"
-		parameterType="com.org.prac.simple.entity.UserRole">
+		parameterType="com.prac.simple.entity.UserRole">
 		insert into user_role (user_id, role_id)
 		values (#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective"
-		parameterType="com.org.prac.simple.entity.UserRole">
+		parameterType="com.prac.simple.entity.UserRole">
 		insert into user_role
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="userId != null">

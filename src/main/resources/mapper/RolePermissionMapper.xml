@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="com.org.prac.simple.mapper.RolePermissionMapper">
+	namespace="com.prac.simple.mapper.RolePermissionMapper">
 	<resultMap id="BaseResultMap"
-		type="com.org.prac.simple.entity.RolePermission">
+		type="com.prac.simple.entity.RolePermission">
 		<result column="role_id" jdbcType="VARCHAR" property="roleId" />
 		<result column="permission_id" jdbcType="VARCHAR"
 			property="permissionId" />
 	</resultMap>
 	<insert id="insert"
-		parameterType="com.org.prac.simple.entity.RolePermission">
+		parameterType="com.prac.simple.entity.RolePermission">
 		insert into role_permission (role_id, permission_id)
 		values (#{roleId,jdbcType=VARCHAR}, #{permissionId,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective"
-		parameterType="com.org.prac.simple.entity.RolePermission">
+		parameterType="com.prac.simple.entity.RolePermission">
 		insert into role_permission
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="roleId != null">
