@@ -68,6 +68,7 @@ public class PermissionFilter implements Filter,Ordered{
 			}
 			return;
 		}
+		//未登录用户
 		if(StringUtils.isEmpty(accessToken)) {
 			PrintWriter out = response.getWriter();
 			out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.LOGIN_PLEASE)));

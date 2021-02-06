@@ -167,7 +167,7 @@
 		where pid=#{id}
 	</select>
 	<delete id="batchDeletePermission" parameterType="list">
-		delete from permission where id in
+		delete from permission where id userId
 		<foreach collection="list" item="id" open="(" close=")"
 			separator=",">
 			#{id,jdbcType=INTEGER}
