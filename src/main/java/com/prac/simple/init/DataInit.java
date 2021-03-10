@@ -1,5 +1,6 @@
 package com.prac.simple.init;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
+import com.prac.simple.entity.Permission;
 import com.prac.simple.entity.RolePermission;
 import com.prac.simple.mapper.PermissionMapper;
 /**
@@ -27,6 +30,7 @@ public class DataInit implements ApplicationRunner,Ordered{
 	
 	private static Logger logger = LoggerFactory.getLogger(DataInit.class);
 	public static Map<String,Set<String>> permissionMap = new HashMap<String,Set<String>>(16);  //角色资源关系数据
+	public static List<String> permissionUrlList = new ArrayList<String>();
 	
 	@Autowired
 	private PermissionMapper permissionMapper;
@@ -52,6 +56,8 @@ public class DataInit implements ApplicationRunner,Ordered{
 	 * @return void
 	 */
 	public void initPermission() {
+		permissionUrlList = permissionMapper.selectPermission(null).stream().filter(item->StringUtils.isNoneEmpty(item.getUrl())).
+				map(item->item.getUrl()).collect(Collectors.toList());
 		List<RolePermission> rolePermissions = permissionMapper.selectRolePermissions();
 		permissionMap = rolePermissions.stream().collect(Collectors.toMap(RolePermission::getUrl, item->{
 			Set<String> roles = new HashSet<String>(16);

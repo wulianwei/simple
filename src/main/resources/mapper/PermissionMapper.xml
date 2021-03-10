@@ -118,10 +118,22 @@
 		orders = #{orders,jdbcType=INTEGER}
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
-	<select id="selectPermission" resultMap="BaseResultMap">
+	<select id="selectPermission" resultMap="BaseResultMap" parameterType="PermissionReq">
 		select
 		<include refid="Base_Column_List" />
 		from permission
+		<where>
+			<if test="pid != null and pid != ''">
+				pid = #{pid}
+			</if>
+		</where>
+		order by pid,orders
+	</select>
+	<select id="selectAllMenu" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from permission
+		where type <![CDATA[<>]]> '03'
 	</select>
 	<select id="selectRolePermissions" resultType="RolePermission">
 		select p.url, r.id roleId
@@ -150,6 +162,13 @@
 		<include refid="Base_Column_List" />
 		from permission
 		where url=#{url} limit 1
+	</select>
+	<select id="selectPermissionByTitle"
+		parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from permission
+		where title=#{title} limit 1
 	</select>
 	<select id="selectExistPermissionByUrl"
 		parameterType="java.lang.String" resultMap="BaseResultMap">

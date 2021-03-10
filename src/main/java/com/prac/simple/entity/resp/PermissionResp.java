@@ -1,13 +1,12 @@
-package com.prac.simple.entity.req;
-
-import java.util.List;
+package com.prac.simple.entity.resp;
 
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString
-public class PermissionReq {	
+public class PermissionResp {
+
 	private String id;
 
     private String pid;
@@ -21,11 +20,13 @@ public class PermissionReq {
     private String description;
 
     private Integer orders;
-    
-	private String roleId;
-	
+    	
 	private String mainMenu;
 	
 	private String subMenu;
-	private List<String> ids;
+	
+	private String mainMenuName;
+	
+	private String subMenuName;
+	
 }

@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.druid.util.StringUtils;
 import com.prac.simple.entity.Permission;
 import com.prac.simple.entity.req.EditRolePermissionReq;
 import com.prac.simple.entity.req.PermissionReq;
 import com.prac.simple.entity.resp.MenuResp;
+import com.prac.simple.entity.resp.PermissionResp;
 import com.prac.simple.init.DataInit;
 import com.prac.simple.service.PermissionService;
 import com.prac.simple.util.OperationResult;
@@ -53,10 +55,32 @@ public class PermissionController {
 	 * @Author wulianwei
 	 * @Date 2020-05-22
 	 */
-	@PostMapping("/searchMenu")
-	public ServiceResult<List<MenuResp>> searchMenu(){
-		logger.info("searchMenu>>");
-		return permissionService.searchMenu();
+	@PostMapping("/listUserMenu")
+	public ServiceResult<List<MenuResp>> listUserMenu(){
+		logger.info("listUserMenu>>");
+		return permissionService.listUserMenu();
+	}
+	
+	/**
+	 * @Description 查询菜单
+	 * @Author wulianwei
+	 * @Date 2020-05-22
+	 */
+	@PostMapping("/listUserPermission")
+	public ServiceResult<List<Permission>> listUserPermission(){
+		logger.info("listUserPermission>>");
+		return permissionService.listUserPermission();
+	}
+	
+	/**
+	 * @Description 查询菜单
+	 * @Author wulianwei
+	 * @Date 2020-05-22
+	 */
+	@PostMapping("/listAllPermission")
+	public ServiceResult<List<Permission>> listAllPermission(){
+		logger.info("listAllPermission>>");
+		return permissionService.listAllPermission();
 	}
 	
 	/**
@@ -66,7 +90,7 @@ public class PermissionController {
 	 * @Return  ServiceResult<Permission>
 	 */
 	@PostMapping("/permissionDetail")
-	public ServiceResult<Permission> permissionDetail(@RequestBody PermissionReq req){
+	public ServiceResult<PermissionResp> permissionDetail(@RequestBody PermissionReq req){
 		logger.info("permissionDetail>>{}", req);
 		return permissionService.permissionDetail(req.getId());
 	}
@@ -79,10 +103,21 @@ public class PermissionController {
 	 */
 	@PostMapping("/listPermissionIdByRoleId")
 	public ServiceResult<List<String>> listPermissionIdByRoleId(@RequestBody PermissionReq req){
-		logger.info("searchRolePermission>>:{}", req);
+		logger.info("listPermissionIdByRoleId>>:{}", req);
 		return permissionService.listPermissionIdByRoleId(req.getRoleId());
 	}
 	
+	/**
+	 * @Description 查看资源
+	 * @Author wulianwei
+	 * @Date 2020-05-22 14:18
+	 * @Return  ServiceResult<Permission>
+	 */
+	@PostMapping("/listAllMenu")
+	public ServiceResult<List<Permission>> listAllMenu(){
+		logger.info("listAllMenu>>");
+		return permissionService.listAllMenu();
+	}
 	/**
 	 * @Description 添加资源
 	 * @Author wulianwei
@@ -90,9 +125,9 @@ public class PermissionController {
 	 * @Return  OperationResult
 	 */
 	@PostMapping("/addPermission")
-	public OperationResult addPermission(@RequestBody Permission permission) {
-		logger.info("addPermission>>{}", permission);
-		return permissionService.addPermission(permission);
+	public OperationResult addPermission(@RequestBody PermissionReq req) {
+		logger.info("addPermission>>{}", req);
+		return permissionService.addPermission(req);
 	} 
 	
 	/**
@@ -116,18 +151,20 @@ public class PermissionController {
 	@PostMapping("/batchDeletePermission")
 	public OperationResult batchDeletePermission(@RequestBody PermissionReq req) {
 		logger.info("batchDeletePermission>>{}",req);
-		return permissionService.batchDeletePermission(req.getIds());
+		return permissionService.batchDeletePermission(req.getId());
 	}
 	
 	/**
-	 * @Description 为角色赋权
+	 * @Description 删除资源
 	 * @Author wulianwei
-	 * @Date 2020-05-23 16:55
+	 * @Date 2020-05-23 10:14
 	 * @Return  OperationResult
 	 */
-	@PostMapping("/editRolePermission")
-	public OperationResult editRolePermission(@RequestBody EditRolePermissionReq req) {
-		logger.info("editRolePermission>>{}",req);
-		return permissionService.editRolePermission(req);
+	@PostMapping("/deletePermission")
+	public OperationResult deletePermission(@RequestBody PermissionReq req) {
+		logger.info("deletePermission>>{}",req);
+		return permissionService.deletePermission(req.getId());
 	}
+	
+
 }

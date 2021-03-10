@@ -6,17 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.prac.simple.constant.CodeMsg;
 import com.prac.simple.entity.Role;
+import com.prac.simple.entity.RolePermission;
 import com.prac.simple.entity.User;
 import com.prac.simple.entity.UserRole;
+import com.prac.simple.entity.req.EditRolePermissionReq;
 import com.prac.simple.entity.req.EditUserRoleReq;
+import com.prac.simple.entity.req.RoleReq;
+import com.prac.simple.init.DataInit;
 import com.prac.simple.mapper.RoleMapper;
 import com.prac.simple.mapper.RolePermissionMapper;
 import com.prac.simple.mapper.UserRoleMapper;
 import com.prac.simple.service.RoleService;
 import com.prac.simple.util.AccessTokenUtil;
 import com.prac.simple.util.OperationResult;
+import com.prac.simple.util.PageResult;
 import com.prac.simple.util.ServiceResult;
 
 @Service
@@ -30,6 +37,9 @@ public class RoleServiceImpl implements RoleService{
 	
 	@Autowired
 	UserRoleMapper userRoleMapper;
+	
+	@Autowired
+	private DataInit dataInit;
 
 	@Override
 	public ServiceResult<List<Role>> listRole() {
@@ -87,6 +97,38 @@ public class RoleServiceImpl implements RoleService{
 			record.setRoleId(roleId);
 			userRoleMapper.insert(record);
 		}
+		return OperationResult.newSuccess();
+	}
+
+	@Override
+	public PageResult<List<Role>> searchRole(RoleReq req) {
+		// TODO Auto-generated method stub
+		Page<Object> page = PageHelper.startPage(req.getPageNum(),req.getPageSize());
+		List<Role> roles = roleMapper.selectRole(req);
+		PageResult<List<Role>> result = PageResult.newSuccess(roles); 
+		result.setTotal((int) page.getTotal());
+		return result;
+	}
+
+	@Override
+	public ServiceResult<Role> getRole(String id) {
+		// TODO Auto-generated method stub
+		Role role = roleMapper.selectByPrimaryKey(id);
+		return ServiceResult.newSuccess(role);
+	}
+
+	@Override
+	@Transactional
+	public OperationResult authorPermission(EditRolePermissionReq req) {
+		// TODO Auto-generated method stub
+		rolePermissionMapper.deleteRolePermissionByRoleId(req.getRoleId());
+		for(String permissionId : req.getPermissionIds()) {
+			RolePermission record = new RolePermission();
+			record.setRoleId(req.getRoleId());
+			record.setPermissionId(permissionId);
+			rolePermissionMapper.insert(record);
+		}
+		dataInit.initPermission();
 		return OperationResult.newSuccess();
 	}
 

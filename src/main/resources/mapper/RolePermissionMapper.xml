@@ -46,6 +46,11 @@
 			#{id,jdbcType=INTEGER}
 		</foreach>
 	</delete>
+	<delete id="deleteRolePermissionByPermissionId"
+		parameterType="java.lang.String">
+		delete from role_permission 
+		where permission_id = #{id,jdbcType=INTEGER}
+	</delete>
 	<delete id="deleteRolePermissionByRoleId"
 		parameterType="java.lang.String">
 		delete from role_permission where role_id = #{roleId}

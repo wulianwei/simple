@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.prac.simple.entity.Permission;
 import com.prac.simple.entity.RolePermission;
+import com.prac.simple.entity.req.PermissionReq;
 
 
 public interface PermissionMapper {
@@ -21,7 +22,9 @@ public interface PermissionMapper {
 
     int updateByPrimaryKey(Permission record);
     
-    List<Permission> selectPermission();
+    List<Permission> selectPermission(PermissionReq record);
+    
+    List<Permission> selectAllMenu();
     
     List<RolePermission> selectRolePermissions();
     
@@ -30,6 +33,8 @@ public interface PermissionMapper {
     List<Permission> selectPermissionByRoleId(String roleId);
     
     Permission selectPermissionByUrl(String url);
+    
+    Permission selectPermissionByTitle(String title);
     
     Permission selectExistPermissionByUrl(@Param("url") String url, @Param("id") String id);
     

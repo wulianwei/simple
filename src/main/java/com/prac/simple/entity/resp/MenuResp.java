@@ -18,7 +18,7 @@ public class MenuResp {
 
     private String url;
     
-    private Byte orders;
+    private Integer orders;
     
     private List<MenuResp> children = new ArrayList<MenuResp>();
 

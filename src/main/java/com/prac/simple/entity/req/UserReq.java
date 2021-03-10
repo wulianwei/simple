@@ -11,6 +11,18 @@ public class UserReq {
 	
 	private Integer pageNum;
 	
-	private String userName;
+	private String id;
+
+    private String username;
+
+    private String password;
+
+    private String email;
+
+    private String salt;
+
+    private String enabled;
+    
+    private String roleIds; //"role1,role2"
 
 }

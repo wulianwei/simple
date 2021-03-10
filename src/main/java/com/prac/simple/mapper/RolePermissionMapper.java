@@ -13,5 +13,7 @@ public interface RolePermissionMapper {
     
     int batchDeleteRolePermissionByPermissionId(List<String> ids);
     
+    int deleteRolePermissionByPermissionId(String id);
+    
     int deleteRolePermissionByRoleId(String roleId);
 }

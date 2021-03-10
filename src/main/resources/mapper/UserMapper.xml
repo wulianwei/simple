@@ -137,8 +137,8 @@
 		<include refid="Base_Column_List" />
 		from user
 		<where>
-			<if test="userName != null">
-				username = #{userName,jdbcType=VARCHAR}
+			<if test="username != null">
+				username like CONCAT('%', #{username,jdbcType=VARCHAR},'%')
 			</if>
 		</where>
 	</select>
@@ -149,4 +149,12 @@
 		from user
 		where username = #{userName,jdbcType=VARCHAR} limit 1
 	</select>
+	
+	<delete id="batchDelete"  parameterType="list">
+		delete from user where id in
+		<foreach collection="list" item="id" open="(" close=")"
+			separator=",">
+			#{id,jdbcType=INTEGER}
+		</foreach>
+	</delete>
 </mapper>

@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prac.simple.entity.Role;
+import com.prac.simple.entity.req.EditRolePermissionReq;
 import com.prac.simple.entity.req.EditUserRoleReq;
+import com.prac.simple.entity.req.RoleReq;
 import com.prac.simple.service.RoleService;
 import com.prac.simple.util.OperationResult;
+import com.prac.simple.util.PageResult;
 import com.prac.simple.util.ServiceResult;
 
 @RestController	
@@ -31,10 +34,22 @@ public class RoleController {
 	 * @Date 2020-05-23 15:16
 	 * @Return  ServiceResult<List<Role>>
 	 */
-	@PostMapping("/listRole")
-	public ServiceResult<List<Role>> listRole(){
-		logger.info("listRole>>");
+	@PostMapping("/listAllRole")
+	public ServiceResult<List<Role>> listAllRole(){
+		logger.info("listAllRole>>");
 		return roleService.listRole();
+	}
+	
+	/**
+	 * @Description 查询角色
+	 * @Author wulianwei
+	 * @Date 2020-05-23 15:16
+	 * @Return  ServiceResult<List<Role>>
+	 */
+	@PostMapping("/searchRole")
+	public PageResult<List<Role>> searchRole(@RequestBody RoleReq req){
+		logger.info("searchRole>>req:{}",req);
+		return roleService.searchRole(req);
 	}
 	
 	/**
@@ -47,6 +62,18 @@ public class RoleController {
 	public ServiceResult<List<String>> listRoleIdByUser() {
 		logger.info("listRoleIdByUser>>");
 		return roleService.listRoleIdByUser();
+	}
+	
+	/**
+	 * @Description 角色详情
+	 * @Author wulianwei
+	 * @Date 2020-05-23 15:18
+	 * @Return  OperationResult
+	 */
+	@PostMapping("/getRole")
+	public ServiceResult<Role> getRole(@RequestBody RoleReq req) {
+		logger.info("getRole>>{}", req);
+		return roleService.getRole(req.getId());
 	}
 	
 	/**
@@ -95,6 +122,18 @@ public class RoleController {
 	public OperationResult editUserRole(@RequestBody EditUserRoleReq req) {
 		logger.info("editUserRole>>{}", req);
 		return roleService.editUserRole(req);
+	}
+	
+	/**
+	 * @Description 为角色赋权
+	 * @Author wulianwei
+	 * @Date 2020-05-23 16:55
+	 * @Return  OperationResult
+	 */
+	@PostMapping("/authorPermission")
+	public OperationResult authorPermission(@RequestBody EditRolePermissionReq req) {
+		logger.info("authorPermission>>{}",req);
+		return roleService.authorPermission(req);
 	}
 
 }

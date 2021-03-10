@@ -86,4 +86,15 @@
 		<include refid="Base_Column_List" />
 		from role
 	</select>
+	
+	<select id="selectRole" resultMap="BaseResultMap"  parameterType="RoleReq">
+		select
+		<include refid="Base_Column_List" />
+		from role
+		<where>
+			<if test="name != null and name !=''">
+				name like CONCAT('%',#{name,jdbcType = VARCHAR},'%') 
+			</if>
+		</where>
+	</select>
 </mapper>

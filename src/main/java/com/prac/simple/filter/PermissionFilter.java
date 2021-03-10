@@ -53,11 +53,22 @@ public class PermissionFilter implements Filter,Ordered{
 		// TODO Auto-generated method stub
 		//dataInit.initPermission();   //开启即刻权限校验
 		String uri  = ((HttpServletRequest)request).getRequestURI();
+		if(uri.startsWith("/")) {
+			uri = uri.substring(1);
+		}
 		response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
 		String accessToken = AccessTokenUtil.getAccessToken();
+		User user = null;
+		
+		if(StringUtils.isNoneEmpty(accessToken)) {// 刷新登陆有效时间
+			user = (User) redisTemplate.opsForValue().get(accessToken);
+			if(user != null) {
+				redisTemplate.expire(accessToken, CommonConstant.LOGIN_EXPIRE, TimeUnit.SECONDS);
+			}
+		}
 		//非配置路径直接放行
-		if(!DataInit.permissionMap.keySet().contains(uri)) {
+		if(!DataInit.permissionUrlList.contains(uri)) {
 			try {
 				chain.doFilter(request, response);
 			}catch (Exception e) {
@@ -65,6 +76,7 @@ public class PermissionFilter implements Filter,Ordered{
 				logger.error("请求异常", e);
 				PrintWriter out = response.getWriter();
 				out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.FAILURE)));
+				out.close();
 			}
 			return;
 		}
@@ -76,20 +88,25 @@ public class PermissionFilter implements Filter,Ordered{
 			return;
 		}
 		//用户认证
-		User user = (User) redisTemplate.opsForValue().get(accessToken);
 		if(user == null) {
 			PrintWriter out = response.getWriter();
 			out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.RELOGIN)));
 			out.close();
 			return;
 		}
-		// 刷新登陆有效时间
-		redisTemplate.expire(accessToken, CommonConstant.LOGIN_EXPIRE, TimeUnit.SECONDS);
 		//权限校验
 		Set<String> roles = DataInit.permissionMap.get(uri);
 		List<String> userRoles = user.getRoles();
-		String role = userRoles.stream().filter(item->roles.contains(item)).findAny().orElse(null);
-		if(StringUtils.isEmpty(role)) {
+		boolean rightFlag = false;
+		if(roles!=null && roles.size()>0) {
+			for(String role : roles) {
+				if(userRoles.contains(role)) {
+					rightFlag = true;
+					break;
+				}
+			}
+		}
+		if(!rightFlag) {
 			PrintWriter out = response.getWriter();
 			out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.NO_RIGHT)));
 			out.close();
@@ -101,6 +118,7 @@ public class PermissionFilter implements Filter,Ordered{
 				logger.error("请求异常", e);
 				PrintWriter out = response.getWriter();
 				out.print(JSON.toJSONString(OperationResult.newFailure(CodeMsg.FAILURE)));
+				out.close();
 			}
 		}
 	}

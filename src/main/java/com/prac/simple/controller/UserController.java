@@ -1,5 +1,7 @@
 package com.prac.simple.controller;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prac.simple.entity.User;
+import com.prac.simple.entity.req.EditPasswordReq;
 import com.prac.simple.entity.req.UserReq;
 import com.prac.simple.entity.resp.LoginResp;
 import com.prac.simple.service.UserService;
+import com.prac.simple.util.AccessTokenUtil;
 import com.prac.simple.util.OperationResult;
 import com.prac.simple.util.PageResult;
 import com.prac.simple.util.ServiceResult;
@@ -31,16 +35,26 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	/**
-	 * 
 	 * @Description:    登陆   
-	 * @Author: Administrator     
+	 * @Author: wulianwei     
 	 * @Date:   2020-04-29 11:43  
 	 * @Return ServiceResult<LoginResp>
 	 */
-	@RequestMapping("/login")
-	public ServiceResult<LoginResp> login(String username, String password){
-		logger.info("login>>:",username+"|"+password);
-		return userService.login(username, password);		
+	@PostMapping("/login")
+	public ServiceResult<LoginResp> login(@RequestBody User user){
+		logger.info("login>>user:{}",user);
+		return userService.login(user.getUsername(), user.getPassword());		
+	}
+	/**
+	 * @Description:    登陆   
+	 * @Author: wulianwei     
+	 * @Date:   2020-04-29 11:43  
+	 * @Return ServiceResult<LoginResp>
+	 */
+	@PostMapping("/logout")
+	public OperationResult logout(){
+		logger.info("logout>>");
+		return userService.logout();		
 	}
 	
 	/**
@@ -56,28 +70,90 @@ public class UserController {
 	}
 	
 	/**
-	 * 
-	 * @Description:    添加用户   
-	 * @Author: Administrator     
-	 * @Date:   2020-04-30 15:24  
-	 * @Return OperationResult
+	 * @Description 查询人员 
+	 * @Author wulianwei
+	 * @Date 2020-05-23 12:32
+	 * @Return  PageResult<List<User>>
 	 */
-	@PostMapping("/addUser")
-	public OperationResult addUser(@RequestBody User user) {
-		logger.info("addUser>>:{}", user);
-		return userService.addUser(user);
+	@PostMapping("/getUser")
+	public ServiceResult<User> getUser(@RequestBody UserReq req){
+		logger.info("getUser>>:{}", req);
+		return userService.getUser(req.getId());
 	}
 	
 	/**
 	 * 
-	 * @Description:    编辑用户   
-	 * @Author: Administrator     
+	 * @Description:    添加用户   
+	 * @Author: wulianwei     
+	 * @Date:   2020-04-30 15:24  
+	 * @Return OperationResult
+	 */
+	@PostMapping("/addUser")
+	public OperationResult addUser(@RequestBody UserReq userReq) {
+		logger.info("addUser>>:{}", userReq);
+		return userService.addUser(userReq);
+	}
+	
+	/**
+	 * @Description: 编辑用户   
+	 * @Author: wulianwei     
 	 * @Date:   2020-04-30 15:24  
 	 * @Return OperationResult
 	 */
 	@PostMapping("/editUser")
-	public OperationResult editUser(@RequestBody User user) {
-		logger.info("editUser>>:{}",user);
-		return userService.editUser(user);
+	public OperationResult editUser(@RequestBody UserReq userReq) {
+		logger.info("editUser>>:{}",userReq);
+		return userService.editUser(userReq);
+	}
+	/**
+	 * @Description: 修改密码   
+	 * @Author: wulianwei     
+	 * @Date:   2020-04-30 15:24  
+	 * @Return OperationResult
+	 */
+	@PostMapping("/editPassword")
+	public OperationResult editPassword(@RequestBody EditPasswordReq req) {
+		logger.info("editPassword>>:{}",req);
+		return userService.editPassword(req);
+	}
+	
+	/**
+	 * 
+	 * @Description:    批量删除用户   
+	 * @Author: wulianwei     
+	 * @Date:   2020-04-30 15:24  
+	 * @Return OperationResult
+	 */
+	@PostMapping("/batchDeleteUser")
+	public OperationResult batchDeleteUser(@RequestBody UserReq req) {
+		logger.info("batchDeleteUser>>:{}",req);
+		return userService.bacthDeleteUser(req.getId());
+	}
+	
+	/**
+	 * 
+	 * @Description:    删除用户   
+	 * @Author: wulianwei     
+	 * @Date:   2020-04-30 15:24  
+	 * @Return OperationResult
+	 */
+	@PostMapping("/deleteUser")
+	public OperationResult deleteUser(@RequestBody UserReq req) {
+		logger.info("deleteUser>>:{}",req);
+		return userService.deleteUser(req.getId());
+	}
+	
+	/**
+	 * 
+	 * @Description:    登录用户简介  
+	 * @Author: wulianwei     
+	 * @Date:   2020-04-30 15:24  
+	 * @Return OperationResult
+	 */
+	@PostMapping("/loginBrief")
+	public ServiceResult<User> brief() {
+		logger.info("loginBrief>>");
+		User user = AccessTokenUtil.getUser();
+		return ServiceResult.newSuccess(user);
 	}
 }

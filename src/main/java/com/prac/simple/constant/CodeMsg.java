@@ -12,7 +12,7 @@ public class CodeMsg {
 
 	// 成功
 	public static final Integer SUCCESS_CODE = 0;
-	public static final String SUCCESS_DESC = "success";
+	public static final String SUCCESS_DESC = "SUCCESS";
 
 	// 失败
 	public static final Integer FAILED_CODE = -1;
@@ -35,6 +35,8 @@ public class CodeMsg {
 	public static CodeMsg USER_NO_EXIST= new CodeMsg(10010, "用户不存在");
 	public static CodeMsg PERMISSION_EXIST= new CodeMsg(10011, "资源已存在");
 	public static CodeMsg ROLE_EXIST= new CodeMsg(10012, "角色已存在");
+	public static CodeMsg CHILDREN_PERMISSION_EXIST= new CodeMsg(10013, "存在子功能");
+	public static CodeMsg OLDPASSWORD_WRONG= new CodeMsg(10014, "旧密码不正确");
 	
 	
 
