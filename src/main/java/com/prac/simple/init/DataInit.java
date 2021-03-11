@@ -17,7 +17,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
-import com.prac.simple.entity.Permission;
 import com.prac.simple.entity.RolePermission;
 import com.prac.simple.mapper.PermissionMapper;
 /**

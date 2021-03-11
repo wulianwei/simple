@@ -3,7 +3,6 @@ package com.prac.simple.service;
 import java.util.List;
 
 import com.prac.simple.entity.Permission;
-import com.prac.simple.entity.req.EditRolePermissionReq;
 import com.prac.simple.entity.req.PermissionReq;
 import com.prac.simple.entity.resp.MenuResp;
 import com.prac.simple.entity.resp.PermissionResp;

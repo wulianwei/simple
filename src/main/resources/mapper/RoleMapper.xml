@@ -96,5 +96,11 @@
 				name like CONCAT('%',#{name,jdbcType = VARCHAR},'%') 
 			</if>
 		</where>
+		<if test="sort != null and sort != ''">
+			order by ${sort}
+			<if test="order != null and order != ''">
+				${order}
+			</if>
+		</if>
 	</select>
 </mapper>

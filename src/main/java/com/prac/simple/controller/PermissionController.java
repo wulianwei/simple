@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.druid.util.StringUtils;
 import com.prac.simple.entity.Permission;
-import com.prac.simple.entity.req.EditRolePermissionReq;
 import com.prac.simple.entity.req.PermissionReq;
 import com.prac.simple.entity.resp.MenuResp;
 import com.prac.simple.entity.resp.PermissionResp;
@@ -30,7 +28,7 @@ import com.prac.simple.util.ServiceResult;
 @RequestMapping("/permission")
 public class PermissionController {
 	
-	private static Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static Logger logger = LoggerFactory.getLogger(PermissionController.class);
 	
 	@Autowired
 	PermissionService permissionService;

@@ -16,6 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `device`
+--
+
+DROP TABLE IF EXISTS `device`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `device` (
+  `mac` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'MAC',
+  `name` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '设备名称',
+  `open` char(1) COLLATE utf8_bin DEFAULT '0' COMMENT '开关:''0'' 关闭, ''1'' 打开',
+  `type` char(2) COLLATE utf8_bin NOT NULL DEFAULT '00' COMMENT '设备类型',
+  `description` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifytime` datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`mac`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='设备表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device`
+--
+
+LOCK TABLES `device` WRITE;
+/*!40000 ALTER TABLE `device` DISABLE KEYS */;
+INSERT INTO `device` VALUES ('20210311001','TEST1','0','00','设备1','2021-03-11 02:42:33','2021-03-11 02:42:33'),('20210311002','TEST2','0','00','设备2','2021-03-11 06:26:28','2021-03-11 06:35:16');
+/*!40000 ALTER TABLE `device` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `permission`
 --
 
@@ -32,7 +61,7 @@ CREATE TABLE `permission` (
   `orders` int DEFAULT '0' COMMENT '排序',
   `icon` varchar(45) DEFAULT NULL COMMENT '资源bootstrap图标',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COMMENT='资源';
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='资源';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +70,7 @@ CREATE TABLE `permission` (
 
 LOCK TABLES `permission` WRITE;
 /*!40000 ALTER TABLE `permission` DISABLE KEYS */;
-INSERT INTO `permission` VALUES (1,0,'系统管理','01','','',1,'glyphicon glyphicon-cog'),(2,1,'人员管理','02','user/listUser','',1,''),(3,1,'角色管理','02','role/listRole','',2,NULL),(4,1,'资源管理','02','permission/listPermission','',3,NULL),(14,4,'添加资源','03','permission/addPermission','',1,NULL),(15,4,'修改资源','03','permission/editPermission','',2,NULL),(16,4,'删除资源','03','permission/deletePermission','',3,NULL),(17,2,'添加用户','03','user/addUser','',1,NULL),(19,2,'删除用户','03','user/deleteUser','',3,NULL),(20,2,'批量删除用户','03','user/batchDeleteUser','',4,NULL),(21,3,'添加角色','03','role/addRole','',1,NULL),(22,3,'修改角色','03','role/editRole','',2,NULL),(23,3,'删除角色','03','role/deleteRole','',3,NULL),(25,3,'角色赋权','03','role/authorPermission','',4,NULL),(48,2,'修改用户','03','user/editUser','',2,NULL);
+INSERT INTO `permission` VALUES (1,0,'系统管理','01','','',1,'glyphicon glyphicon-cog'),(2,1,'人员管理','02','user/listUser','',1,''),(3,1,'角色管理','02','role/listRole','',2,NULL),(4,1,'资源管理','02','permission/listPermission','',3,NULL),(14,4,'添加资源','03','permission/addPermission','',1,NULL),(15,4,'修改资源','03','permission/editPermission','',2,NULL),(16,4,'删除资源','03','permission/deletePermission','',3,NULL),(17,2,'添加用户','03','user/addUser','',1,NULL),(19,2,'删除用户','03','user/deleteUser','',3,NULL),(20,2,'批量删除用户','03','user/batchDeleteUser','',4,NULL),(21,3,'添加角色','03','role/addRole','',1,NULL),(22,3,'修改角色','03','role/editRole','',2,NULL),(23,3,'删除角色','03','role/deleteRole','',3,NULL),(25,3,'角色赋权','03','role/authorPermission','',4,NULL),(48,2,'修改用户','03','user/editUser','',2,NULL),(49,0,'设备管理','01','','',2,NULL),(50,49,'开关设备','02','device/listDevice','',1,NULL),(51,50,'添加设备','03','device/addDevice','',1,NULL),(52,50,'修改设备','03','device/editDevice','',2,NULL),(53,50,'删除设备','03','device/deleteDevice','',3,NULL);
 /*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +95,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES ('manager','管理员','管理'),('user','user','user'),('worker','员工','');
+INSERT INTO `role` VALUES ('manager','管理员','管理'),('user','用户','简单查看'),('worker','员工','简单管理');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +119,7 @@ CREATE TABLE `role_permission` (
 
 LOCK TABLES `role_permission` WRITE;
 /*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
-INSERT INTO `role_permission` VALUES ('manager',1),('manager',2),('manager',3),('manager',4),('manager',14),('manager',15),('manager',16),('manager',17),('manager',19),('manager',20),('manager',21),('manager',22),('manager',23),('manager',25),('manager',48),('user',1),('user',2),('user',3),('user',4),('worker',1),('worker',2),('worker',3),('worker',4),('worker',21),('worker',22),('worker',23);
+INSERT INTO `role_permission` VALUES ('manager',1),('manager',2),('manager',3),('manager',4),('manager',14),('manager',15),('manager',16),('manager',17),('manager',19),('manager',20),('manager',21),('manager',22),('manager',23),('manager',25),('manager',48),('manager',49),('manager',50),('manager',51),('manager',52),('manager',53),('user',49),('user',50),('worker',49),('worker',50),('worker',53);
 /*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +150,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('1','admin','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1',NULL,'2021-03-10 06:11:33'),('2dc2e1a08a0c46a2800df1cda8cf2eff','admin13','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-10 02:36:44',NULL),('30be0ffa45f2435d8960d5b823c81325','admin4','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-01 03:47:42',NULL),('41eff4121e53403684705194b15da45a','herherher','33f888f9578deaf847ecde575011653a','18224516628@163.com',NULL,'1','2021-03-08 07:37:17',NULL),('59173ffcf2344c5ab2935cf7463fae1e','geerger','ce7ecdfa5ccf5475d77eda1e698d43ed','18224516628@163.com',NULL,'1','2021-03-08 07:36:11',NULL),('7afd6e1e03cf46428bf0da8da9efa3bb','admin2','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-02-25 06:38:54',NULL),('83fda506a6c441d8b946701e080befda','admin17','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-10 02:38:21',NULL),('864928905483443dbc7481292dd5fe98','admin18','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-10 02:38:37',NULL),('b857b747418749c38d5236412690462e','admin16','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-10 02:38:01',NULL),('cdac7a841dc44f85880efb87d555c043','admin15','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-10 02:37:38',NULL),('de5ca4cdfbe34ddca98ecbcc1b255ed1','admin14','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-10 02:37:15',NULL),('e173e878c7ac4ddba03ff50a3e9adb09','wulianwei','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-02-06 01:14:51','2021-03-10 08:19:50'),('ea86e7948ead41a08a2d2cb4738cce65','admin11','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-10 02:35:54',NULL),('f2b9cf7b2ecf4ed394dd9895fa1a970b','admin12','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-10 02:36:10',NULL);
+INSERT INTO `user` VALUES ('1','admin','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1',NULL,'2021-03-11 08:58:26'),('e173e878c7ac4ddba03ff50a3e9adb09','wulianwei','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-02-06 01:14:51','2021-03-11 08:57:53'),('e21af46366e84f9688014c1c3b010726','lurenjia','e10adc3949ba59abbe56e057f20f883e','18224516628@163.com',NULL,'1','2021-03-11 06:46:52','2021-03-11 06:47:09');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +174,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES ('1','manager'),('2dc2e1a08a0c46a2800df1cda8cf2eff','user'),('30be0ffa45f2435d8960d5b823c81325','user'),('3b97dc27ddf546a387d3d6864d17c9fd','manager'),('41eff4121e53403684705194b15da45a','user'),('642a6d6e2d50441c90770027d91f42f1','manager'),('7afd6e1e03cf46428bf0da8da9efa3bb','worker'),('83fda506a6c441d8b946701e080befda','manager'),('864928905483443dbc7481292dd5fe98','manager'),('898c852ca04740b5ad334d6db3789fea','user'),('898c852ca04740b5ad334d6db3789fea','worker'),('b857b747418749c38d5236412690462e','manager'),('cdac7a841dc44f85880efb87d555c043','manager'),('de5ca4cdfbe34ddca98ecbcc1b255ed1','user'),('e173e878c7ac4ddba03ff50a3e9adb09','worker'),('ea86e7948ead41a08a2d2cb4738cce65','manager'),('f2b9cf7b2ecf4ed394dd9895fa1a970b','user');
+INSERT INTO `user_role` VALUES ('1','manager'),('3b97dc27ddf546a387d3d6864d17c9fd','manager'),('642a6d6e2d50441c90770027d91f42f1','manager'),('898c852ca04740b5ad334d6db3789fea','user'),('898c852ca04740b5ad334d6db3789fea','worker'),('e173e878c7ac4ddba03ff50a3e9adb09','worker'),('e21af46366e84f9688014c1c3b010726','user');
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -158,4 +187,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-10 16:21:04
+-- Dump completed on 2021-03-11 17:02:43

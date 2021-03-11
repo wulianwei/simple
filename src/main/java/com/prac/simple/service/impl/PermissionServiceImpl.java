@@ -14,9 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.prac.simple.constant.CodeMsg;
 import com.prac.simple.constant.CommonConstant;
 import com.prac.simple.entity.Permission;
-import com.prac.simple.entity.RolePermission;
 import com.prac.simple.entity.User;
-import com.prac.simple.entity.req.EditRolePermissionReq;
 import com.prac.simple.entity.req.PermissionReq;
 import com.prac.simple.entity.resp.MenuResp;
 import com.prac.simple.entity.resp.PermissionResp;
@@ -203,7 +201,6 @@ public class PermissionServiceImpl implements PermissionService{
 		// TODO Auto-generated method stub
 		List<Permission> children = permissionMapper.selectChildrenPermission(id);
 		if(children.size() > 0) {
-			Permission permission = permissionMapper.selectByPrimaryKey(id);
 			return OperationResult.newFailure(CodeMsg.CHILDREN_PERMISSION_EXIST);
 		}
 		permissionMapper.deleteByPrimaryKey(id);

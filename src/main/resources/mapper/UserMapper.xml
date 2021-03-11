@@ -141,6 +141,12 @@
 				username like CONCAT('%', #{username,jdbcType=VARCHAR},'%')
 			</if>
 		</where>
+		<if test="sort != null and sort != ''">
+			order by ${sort}
+			<if test="order != null and order != ''">
+				${order}
+			</if>
+		</if>
 	</select>
 	<select id="selectUserByUsername"
 		parameterType="java.lang.String" resultMap="BaseResultMap">

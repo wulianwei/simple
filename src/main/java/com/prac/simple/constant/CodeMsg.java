@@ -37,6 +37,7 @@ public class CodeMsg {
 	public static CodeMsg ROLE_EXIST= new CodeMsg(10012, "角色已存在");
 	public static CodeMsg CHILDREN_PERMISSION_EXIST= new CodeMsg(10013, "存在子功能");
 	public static CodeMsg OLDPASSWORD_WRONG= new CodeMsg(10014, "旧密码不正确");
+	public static CodeMsg DEVICE_EXIST= new CodeMsg(10015, "设备已存在");
 	
 	
 

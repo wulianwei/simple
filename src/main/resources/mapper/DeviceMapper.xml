@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prac.simple.mapper.DeviceMapper">
+  <resultMap id="BaseResultMap" type="com.prac.simple.entity.Device">
+    <id column="mac" jdbcType="VARCHAR" property="mac" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="open" jdbcType="CHAR" property="open" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="modifytime" jdbcType="TIMESTAMP" property="modifytime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    mac, name, open, type, description, createtime, modifytime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from device
+    where mac = #{mac,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from device
+    where mac = #{mac,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.prac.simple.entity.Device">
+    insert into device (mac, name, open, 
+      type, description, createtime, 
+      modifytime)
+    values (#{mac,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{open,jdbcType=CHAR}, 
+      #{type,jdbcType=CHAR}, #{description,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{modifytime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.prac.simple.entity.Device">
+    insert into device
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mac != null">
+        mac,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="open != null">
+        open,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="modifytime != null">
+        modifytime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mac != null">
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null">
+        #{open,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.prac.simple.entity.Device">
+    update device
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="open != null">
+        open = #{open,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null">
+        modifytime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where mac = #{mac,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.prac.simple.entity.Device">
+    update device
+    set name = #{name,jdbcType=VARCHAR},
+      open = #{open,jdbcType=CHAR},
+      type = #{type,jdbcType=CHAR},
+      description = #{description,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      modifytime = #{modifytime,jdbcType=TIMESTAMP}
+    where mac = #{mac,jdbcType=VARCHAR}
+  </update>
+  <select id="selectDevice"  parameterType="DeviceReq"  resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from device
+  	<where>
+  		<if test="mac != null and mac != ''">
+  			mac like CONCAT('%',#{mac,jdbcType=VARCHAR},'%')
+  		</if>
+  		<if test="name != null and name != ''">
+  			and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+  		</if>
+  	</where>
+  	<if test="sort != null and sort != ''">
+			order by ${sort}
+			<if test="order != null and order != ''">
+				${order}
+			</if>
+	</if>
+  </select>
+</mapper>

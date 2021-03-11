@@ -1,7 +1,5 @@
 package com.prac.simple.controller;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;

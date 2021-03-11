@@ -11,6 +11,10 @@ public class UserReq {
 	
 	private Integer pageNum;
 	
+	private String sort;  //排序字段
+	
+	private String order; //排序,asc,desc
+	
 	private String id;
 
     private String username;
