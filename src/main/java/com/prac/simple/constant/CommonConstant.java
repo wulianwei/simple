@@ -12,4 +12,10 @@ public final class CommonConstant {
 	
 	public static final String DEVICE_ON= "1"; //设备开
 	public static final String DEVICE_OFF = "0";//设备关
+	
+	public static final Integer MQTT_QOS0 = 0;
+	public static final Integer MQTT_QOS1 = 1;
+	public static final Integer MQTT_QOS2 = 2;
+	public static final String MQTT_PUBLISH_PREFIX = "device/";
+	public static final String MQTT_SUB_TOPIC_SIMPLE = "simple";
 }
