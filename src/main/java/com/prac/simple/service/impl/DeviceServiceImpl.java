@@ -86,6 +86,16 @@ public class DeviceServiceImpl implements DeviceService {
 		return OperationResult.newSuccess();
 	}
 
+	@Override
+	public OperationResult changeOpen(String mac, String open) {
+		// TODO Auto-generated method stub
+		Device device = new Device();
+		device.setMac(mac);
+		device.setOpen(open);
+		deviceMapper.updateByPrimaryKeySelective(device);
+		return OperationResult.newSuccess();
+	}
+
 	
 
 }

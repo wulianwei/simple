@@ -21,5 +21,7 @@ public interface DeviceService {
 	ServiceResult<Device> getDevice(Device record);
 	
 	OperationResult switchDevice(DeviceReq req);
+	
+	OperationResult changeOpen(String mac,String open);
 
 }
