@@ -4,13 +4,10 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.prac.simple.constant.CommonConstant;
 
 @Configuration
 public class MqttConfig{
@@ -33,8 +30,6 @@ public class MqttConfig{
 	@Value("${mqtt.keepalive}")
     private Integer keepalive;
 	
-	@Autowired
-	private Callback callback;
         
  
     /**
@@ -43,9 +38,7 @@ public class MqttConfig{
     @Bean
     public MqttClient mqttClient(@Qualifier("connectOptions") MqttConnectOptions connectOptions) throws MqttException {
     	 MqttClient mqttClient = new MqttClient(hostUrl, clientId, new MemoryPersistence());
-         mqttClient.setCallback(callback); 
          mqttClient.connect(connectOptions);
-         mqttClient.subscribe(CommonConstant.MQTT_SUB_TOPIC_SIMPLE);
          return mqttClient;
     }
     
