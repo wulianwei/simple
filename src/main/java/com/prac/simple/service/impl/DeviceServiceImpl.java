@@ -14,6 +14,7 @@ import com.prac.simple.entity.Device;
 import com.prac.simple.entity.req.DeviceReq;
 import com.prac.simple.mapper.DeviceMapper;
 import com.prac.simple.service.DeviceService;
+import com.prac.simple.util.MqttUtil;
 import com.prac.simple.util.OperationResult;
 import com.prac.simple.util.PageResult;
 import com.prac.simple.util.ServiceResult;
@@ -24,6 +25,8 @@ public class DeviceServiceImpl implements DeviceService {
 	@Autowired
 	DeviceMapper deviceMapper;
 	
+	@Autowired
+	private MqttUtil mqttUtil;
 	
 	@Override
 	public PageResult<List<Device>> searchDevice(DeviceReq req) {
@@ -79,6 +82,7 @@ public class DeviceServiceImpl implements DeviceService {
 		device.setMac(req.getMac());
 		device.setOpen(req.getOpen());
 		deviceMapper.updateByPrimaryKeySelective(device);
+		mqttUtil.pub(CommonConstant.MQTT_PUBLISH_PREFIX+req.getMac(), req.getOpen(),CommonConstant.MQTT_QOS0);
 		return OperationResult.newSuccess();
 	}
 
