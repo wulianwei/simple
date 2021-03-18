@@ -146,7 +146,6 @@ public class PermissionServiceImpl implements PermissionService{
 //		rolePermission.setRoleId(CommonConstant.ROLE_MANAGER);
 //		rolePermission.setPermissionId(existPermission.getId());
 //		rolePermissionMapper.insert(rolePermission);
-//		dataInit.initPermission();
 		return OperationResult.newSuccess();
 	}
 
