@@ -18,7 +18,6 @@ import com.prac.simple.entity.User;
 import com.prac.simple.entity.req.PermissionReq;
 import com.prac.simple.entity.resp.MenuResp;
 import com.prac.simple.entity.resp.PermissionResp;
-import com.prac.simple.init.DataInit;
 import com.prac.simple.mapper.PermissionMapper;
 import com.prac.simple.mapper.RolePermissionMapper;
 import com.prac.simple.service.PermissionService;
@@ -35,8 +34,6 @@ public class PermissionServiceImpl implements PermissionService{
 	@Autowired
 	private RolePermissionMapper rolePermissionMapper;
 	
-	@Autowired
-	private DataInit dataInit;
 		
 	@Override
 	public ServiceResult<List<MenuResp>> listUserMenu() {
@@ -171,7 +168,6 @@ public class PermissionServiceImpl implements PermissionService{
 		}
 		
 		permissionMapper.updateByPrimaryKeySelective(req);
-		dataInit.initPermission();
 		return OperationResult.newSuccess();
 	}
 
@@ -191,7 +187,6 @@ public class PermissionServiceImpl implements PermissionService{
 		}
 		permissionMapper.batchDeletePermission(idList);
 		rolePermissionMapper.batchDeleteRolePermissionByPermissionId(idList);
-		dataInit.initPermission();
 		return OperationResult.newSuccess();
 	}
 	
@@ -205,7 +200,6 @@ public class PermissionServiceImpl implements PermissionService{
 		}
 		permissionMapper.deleteByPrimaryKey(id);
 		rolePermissionMapper.deleteRolePermissionByPermissionId(id);
-		dataInit.initPermission();
 		return OperationResult.newSuccess();
 	}
 

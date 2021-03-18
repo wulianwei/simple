@@ -16,7 +16,6 @@ import com.prac.simple.entity.UserRole;
 import com.prac.simple.entity.req.EditRolePermissionReq;
 import com.prac.simple.entity.req.EditUserRoleReq;
 import com.prac.simple.entity.req.RoleReq;
-import com.prac.simple.init.DataInit;
 import com.prac.simple.mapper.RoleMapper;
 import com.prac.simple.mapper.RolePermissionMapper;
 import com.prac.simple.mapper.UserRoleMapper;
@@ -37,9 +36,6 @@ public class RoleServiceImpl implements RoleService{
 	
 	@Autowired
 	UserRoleMapper userRoleMapper;
-	
-	@Autowired
-	private DataInit dataInit;
 
 	@Override
 	public ServiceResult<List<Role>> listRole() {
@@ -128,7 +124,6 @@ public class RoleServiceImpl implements RoleService{
 			record.setPermissionId(permissionId);
 			rolePermissionMapper.insert(record);
 		}
-		dataInit.initPermission();
 		return OperationResult.newSuccess();
 	}
 

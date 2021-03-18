@@ -55,4 +55,13 @@
 		parameterType="java.lang.String">
 		delete from role_permission where role_id = #{roleId}
 	</delete>
+	
+	<select id="selectRoleIdByUrl"  parameterType="java.lang.String"  resultType="java.lang.String" >
+		select distinct rp.role_id
+		from role_permission rp
+		inner join permission p on rp.permission_id = p.id
+		<where>
+			p.url=#{url,jdbcType=VARCHAR}
+		</where>
+	</select>
 </mapper>

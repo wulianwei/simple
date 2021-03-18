@@ -3,7 +3,6 @@ package com.prac.simple.filter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.Filter;
@@ -26,7 +25,8 @@ import com.alibaba.fastjson.JSON;
 import com.prac.simple.constant.CodeMsg;
 import com.prac.simple.constant.CommonConstant;
 import com.prac.simple.entity.User;
-import com.prac.simple.init.DataInit;
+import com.prac.simple.mapper.PermissionMapper;
+import com.prac.simple.mapper.RolePermissionMapper;
 import com.prac.simple.util.AccessTokenUtil;
 import com.prac.simple.util.OperationResult;
 
@@ -34,9 +34,15 @@ import com.prac.simple.util.OperationResult;
 public class PermissionFilter implements Filter,Ordered{
 	
 	private Logger logger = LoggerFactory.getLogger(PermissionFilter.class);
+	
+	@Autowired
+	private RolePermissionMapper rolePermissionMapper;
+	
+	@Autowired
+	private PermissionMapper permissionMapper;
 
 	@Autowired
-	RedisTemplate<String, Object> redisTemplate;
+	private RedisTemplate<String, Object> redisTemplate;
 	
 //	@Autowired
 //	private DataInit dataInit;
@@ -51,7 +57,6 @@ public class PermissionFilter implements Filter,Ordered{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		//dataInit.initPermission();   //开启即刻权限校验
 		String uri  = ((HttpServletRequest)request).getRequestURI();
 		if(uri.startsWith("/")) {
 			uri = uri.substring(1);
@@ -68,7 +73,8 @@ public class PermissionFilter implements Filter,Ordered{
 			}
 		}
 		//非配置路径直接放行
-		if(!DataInit.permissionUrlList.contains(uri)) {
+		List<String> permissionUrlList = permissionMapper.selectAllPermissionUrl();
+		if(!permissionUrlList.contains(uri)) {
 			try {
 				chain.doFilter(request, response);
 			}catch (Exception e) {
@@ -95,7 +101,7 @@ public class PermissionFilter implements Filter,Ordered{
 			return;
 		}
 		//权限校验
-		Set<String> roles = DataInit.permissionMap.get(uri);
+		List<String> roles = rolePermissionMapper.selectRoleIdByUrl(uri);
 		List<String> userRoles = user.getRoles();
 		boolean rightFlag = false;
 		if(roles!=null && roles.size()>0) {

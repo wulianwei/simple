@@ -185,6 +185,9 @@
 		from permission
 		where pid=#{id}
 	</select>
+	<select id="selectAllPermissionUrl"  parameterType="java.lang.String"  resultType="java.lang.String" >
+		select url from permission where url is not null and url <![CDATA[<>]]> ''
+	</select>
 	<delete id="batchDeletePermission" parameterType="list">
 		delete from permission where id userId
 		<foreach collection="list" item="id" open="(" close=")"

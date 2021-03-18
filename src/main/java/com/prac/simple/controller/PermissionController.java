@@ -14,7 +14,6 @@ import com.prac.simple.entity.Permission;
 import com.prac.simple.entity.req.PermissionReq;
 import com.prac.simple.entity.resp.MenuResp;
 import com.prac.simple.entity.resp.PermissionResp;
-import com.prac.simple.init.DataInit;
 import com.prac.simple.service.PermissionService;
 import com.prac.simple.util.OperationResult;
 import com.prac.simple.util.ServiceResult;
@@ -32,21 +31,7 @@ public class PermissionController {
 	
 	@Autowired
 	PermissionService permissionService;
-	
-	@Autowired
-	DataInit dataInit;
-	
-	/**
-	 * @Description 更新资源缓存
-	 * @Author wulianwei
-	 * @Date 2020-05-22
-	 */
-	@PostMapping("/refreshPermission")
-	public OperationResult cachePermission(){
-		logger.info("refreshPermission>>");
-		dataInit.initPermission();
-		return OperationResult.newSuccess();
-	}
+
 
 	/**
 	 * @Description 查询菜单

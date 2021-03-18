@@ -16,4 +16,6 @@ public interface RolePermissionMapper {
     int deleteRolePermissionByPermissionId(String id);
     
     int deleteRolePermissionByRoleId(String roleId);
+    
+    List<String> selectRoleIdByUrl(String url);
 }
