@@ -7,11 +7,13 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import com.prac.simple.controller.MqttHandle;
 
 @Component
+@ConditionalOnBean(MqttConfig.class)
 public class Callback implements MqttCallback {
 	 
 	private static Logger logger = LoggerFactory.getLogger(Callback.class);

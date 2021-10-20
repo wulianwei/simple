@@ -25,7 +25,7 @@ public class DeviceServiceImpl implements DeviceService {
 	@Autowired
 	DeviceMapper deviceMapper;
 	
-	@Autowired
+	@Autowired(required = false)
 	private MqttUtil mqttUtil;
 	
 	@Override
@@ -82,7 +82,9 @@ public class DeviceServiceImpl implements DeviceService {
 		device.setMac(req.getMac());
 		device.setOpen(req.getOpen());
 		deviceMapper.updateByPrimaryKeySelective(device);
-		mqttUtil.pub(CommonConstant.MQTT_PUBLISH_PREFIX+req.getMac(), req.getOpen(),CommonConstant.MQTT_QOS0);
+		if(mqttUtil != null) {
+			mqttUtil.pub(CommonConstant.MQTT_PUBLISH_PREFIX+req.getMac(), req.getOpen(),CommonConstant.MQTT_QOS0);
+		}
 		return OperationResult.newSuccess();
 	}
 

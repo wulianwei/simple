@@ -8,9 +8,14 @@ import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
+import com.prac.simple.config.MqttConfig;
+
+
 @Component
+@ConditionalOnBean(MqttConfig.class)
 public class MqttUtil {
 	
 	private static Logger logger = LoggerFactory.getLogger(MqttUtil.class);
